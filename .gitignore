@@ -1,3 +1,7 @@
+#vim swp
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
 #npm dependencies
 node_modules
 
