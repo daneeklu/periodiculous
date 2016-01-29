@@ -8,8 +8,7 @@ node_modules
 #jspm dependencies
 public/jspm_packages/
 
-#generated html/js files
+#generated html/js/css files
 public/*.html
 public/*.js
-
-
+public/css

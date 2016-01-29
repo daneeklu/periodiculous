@@ -6,7 +6,9 @@ html(lang="en")
   body
     #container
       h1(data-bind="text: greeting")
-      input(data-bind="value: greeting")
+      ul(data-bind='foreach: atoms')
+        a(href='#' data-bind='click: $parent.atomClicked')
+          include _atombox.jade
 
     script(src="jspm_packages/system.js", charset="utf-8")
     script(src="config.js", charset="utf-8")
