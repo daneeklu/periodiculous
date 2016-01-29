@@ -1,0 +1,11 @@
+#npm dependencies
+node_modules
+
+#jspm dependencies
+public/jspm_packages/
+
+#generated html/js files
+public/*.html
+public/*.js
+
+

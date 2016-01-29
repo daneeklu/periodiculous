@@ -1,0 +1,14 @@
+doctype html
+html(lang="en")
+  head
+    title Periodiculous
+    include css.jade
+  body
+    #container
+      h1(data-bind="text: greeting")
+      input(data-bind="value: greeting")
+
+    script(src="jspm_packages/system.js", charset="utf-8")
+    script(src="config.js", charset="utf-8")
+    script(type="text/javascript").
+      System.import('main.js')
