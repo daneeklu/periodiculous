@@ -1,8 +1,13 @@
 var gulp = require('gulp')
 var babel = require('gulp-babel')
 var jade = require('gulp-jade')
-var sass = require('gulp-sass')
 var webserver = require('gulp-webserver')
+
+//CSS
+var sass = require('gulp-sass')
+var postcss      = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+
 
 gulp.task('default', ['runbabel', 'templates', 'sass', 'watch', 'webserver'])
 
@@ -17,6 +22,7 @@ gulp.task('runbabel', () => {
 gulp.task('sass', () => {
   gulp.src('src/css/main.scss')
     .pipe(sass().on('error', sass.logError))
+    .pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
     .pipe(gulp.dest('public/css'))
 })
 
