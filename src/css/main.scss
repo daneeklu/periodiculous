@@ -1,10 +1,14 @@
-$darkgreen: #260;
-$green: #aca;
-$lightgreen: #cdc;
+@import 'colors';
 
-$highlight: #dec;
-$shadow: #8a9;
-$dropshadow: #88a;
+@mixin atom-box-shadow($a, $b) {
+  box-shadow: inset 6px 6px 16px $a,
+              inset -6px -6px 16px $b,
+              6px 6px 16px $dropshadow;
+}
+
+body, h1, a , a:link, a:visited, a:hover, a:active {
+    color: $darkgreen;
+}
 
 body {
   background-color: $lightgreen;
@@ -18,13 +22,19 @@ body {
   background-color: $green;
   overflow: hidden;
   display: inline-block;
-  box-shadow: inset 6px 6px 16px $highlight,
-              inset -6px -6px 16px $shadow,
-              6px 6px 16px $dropshadow;
+
+  @include atom-box-shadow($highlight, $shadow);
+
+  &:hover {
+    background-color: $highlight;
+    @include atom-box-shadow($whitegreen, $lightgreen);
+  }
+
 }
 
+
+
 .atomletter {
-  color: $darkgreen;
   margin: auto;
   padding: none;
   clear: none;

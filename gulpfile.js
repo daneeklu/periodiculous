@@ -15,7 +15,7 @@ gulp.task('runbabel', () => {
 })
 
 gulp.task('sass', () => {
-  gulp.src('src/css/*.scss')
+  gulp.src('src/css/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('public/css'))
 })
