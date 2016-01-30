@@ -7,11 +7,11 @@ var webserver = require('gulp-webserver')
 gulp.task('default', ['runbabel', 'templates', 'sass', 'watch', 'webserver'])
 
 gulp.task('runbabel', () => {
-  return gulp.src('src/*.js')
+  return gulp.src('src/js/*.js')
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(gulp.dest('public'))
+    .pipe(gulp.dest('public/js'))
 })
 
 gulp.task('sass', () => {
@@ -36,7 +36,7 @@ gulp.task('webserver', () => {
 })
 
 gulp.task('watch', () => {
-  gulp.watch('src/*.js', ['runbabel'])
+  gulp.watch('src/js/*.js', ['runbabel'])
   gulp.watch('src/css/*.scss', ['sass'])
   gulp.watch('view/*.jade', ['templates'])
 })

@@ -10,5 +10,5 @@ public/jspm_packages/
 
 #generated html/js/css files
 public/*.html
-public/*.js
+public/js
 public/css

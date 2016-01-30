@@ -1,22 +1,18 @@
 import ko from 'knockout'
+import ptable from './ptable'
 
 console.log('Main js file loaded!')
 console.log('Knockout loaded: ', ko.version)
 
 function AppViewModel() {
-  var self = this;
+  const self = this;
+
   this.greeting = ko.observable('Click an element')
-  this.atoms = [{
-    number: 1,
-    name: 'Hydrogen',
-    letter: 'H'
-  },{
-    number: 2,
-    name: 'Helium',
-    letter: 'He'
-  }]
+  this.atoms = ko.observableArray(ptable)
+  this.atomList = ko.observableArray()
+
   this.atomClicked = function (atom) {
-    self.greeting(atom.name)
+    self.atomList.push(atom)
   }
 }
 
