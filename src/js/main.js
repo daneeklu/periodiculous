@@ -19,13 +19,9 @@ function AppViewModel() {
   this.nextQuestion = () => {
 
     let resetTransition = function() {
-      let cl = cont.classList;
-      cl.remove('transitioned')
-      cl.add('tLeft')
-      cl.remove('tRight')
+      cont.className = 'tLeft'; // remove tRight & transitioned
       cont.offsetHeight // flush changes
-      cl.add('transitioned')
-      cl.remove('tLeft')
+      cont.className = 'transitioned';
       cont.removeEventListener('transitionend', resetTransition)
     }
     container.classList.add('tRight')
