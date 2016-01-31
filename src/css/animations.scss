@@ -1,0 +1,14 @@
+
+.transitioned {
+  transition-property: transform, opacity;
+  transition-duration: 1s;
+}
+
+.tRight {
+  transform: translateX(300px);
+  opacity: 0;
+}
+.tLeft {
+  transform: translateX(-300px);
+  opacity: 0;
+}

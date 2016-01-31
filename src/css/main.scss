@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'animations';
 
 @mixin atom-box-shadow($a, $b) {
   box-shadow: inset 6px 6px 16px $a,
@@ -13,6 +14,7 @@ body, h1, a , a:link, a:visited, a:hover, a:active {
 body {
   background-color: $lightgreen;
   padding: 50px;
+  text-align: center;
 }
 
 .atombox {
