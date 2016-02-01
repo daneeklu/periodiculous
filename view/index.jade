@@ -5,13 +5,7 @@ html(lang="en")
     include css.jade
   body
     #container.transitioned.tLeft
-      h1(data-bind="text: greeting")
-      ul(data-bind='foreach: atoms')
-        a(href='#' data-bind='click: $parent.atomClicked')
-          include _atombox.jade
-      ul(data-bind='foreach: atomList')
-        li(data-bind='text: $data.name')
-      button.btn.btn-primary.btn-lg(data-bind="click: nextQuestion") Fade out
+      include _question.jade
 
     script(src="jspm_packages/system.js", charset="utf-8")
     script(src="config.js", charset="utf-8")

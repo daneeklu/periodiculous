@@ -1,0 +1,7 @@
+h1(data-bind="text: question")
+ul(data-bind="foreach: answers")
+  a(href="#" data-bind="click: $parent.nextQuestion")
+    .answerbox
+      .atomletter(data-bind="text: $data") HA
+.timebar(data-bind="style: { width: timeWidth }") &nbsp;
+h1(data-bind="text: score")

@@ -17,21 +17,32 @@ body {
   text-align: center;
 }
 
-.atombox {
+.timebar {
+  background-color: $darkgreen;
+  display: inline-block;
+  transition-property: width;
+  transition-duration: 1s;
+}
+
+.answerbox {
   border: 4px solid $darkgreen;
   border-radius: 20px;
   width: 210px;
+  height: 210px;
   background-color: $green;
-  overflow: hidden;
+
   display: inline-block;
 
   @include atom-box-shadow($highlight, $shadow);
-
   &:hover {
     background-color: $highlight;
     @include atom-box-shadow($whitegreen, $lightgreen);
   }
+}
 
+.atombox {
+  @extend .answerbox;
+  overflow: hidden;
 }
 
 
