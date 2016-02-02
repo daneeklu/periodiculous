@@ -6,11 +6,18 @@ export default function AppViewModel() {
   let cont = document.getElementById('container')
   cont.classList.remove('tLeft')
 
-  this.question = ko.observable()
-  this.answers = ko.observable()
-  this.answer = ko.observable()
-  this.score = ko.observable(0)
-  this.time = ko.observable(30)
+  let baseModel = {
+    question: '',
+    answer: '',
+    answers: [],
+    score: 0,
+    time: 30
+  }
+
+  for (let k in baseModel) {
+    this[k] = ko.observable(baseModel[k])
+  }
+
   this.timeWidth = ko.computed(() => {
     var w = this.time()*10
     return `${w}px` ;
@@ -41,7 +48,6 @@ export default function AppViewModel() {
     if (this.answer() == answer) {
       this.score(this.score()+this.time())
     }
-
 
     container.classList.add('tRight')
     container.addEventListener('transitionend', resetTransition)

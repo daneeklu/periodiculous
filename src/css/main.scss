@@ -1,6 +1,8 @@
 @import 'colors';
 @import 'animations';
 
+$squaresize: 120px;
+
 @mixin atom-box-shadow($a, $b) {
   box-shadow: inset 6px 6px 16px $a,
               inset -6px -6px 16px $b,
@@ -13,8 +15,24 @@ body, h1, a , a:link, a:visited, a:hover, a:active {
 
 body {
   background-color: $lightgreen;
-  padding: 50px;
   text-align: center;
+  line-height: 1.6;
+}
+
+.header {
+  background-color: $green;
+  height: 50px;
+  font-size: 32px;
+  padding-right: 20px;
+  text-align: right;
+  border-width: 0px 0px 2px 0px;
+  border-style: solid;
+  border-color: $shadow;
+  span {
+    color: $highlight;
+    text-shadow: 2px 2px $darkgreen,
+                 4px 4px 12px #fff;
+  }
 }
 
 .timebar {
@@ -26,9 +44,9 @@ body {
 
 .answerbox {
   border: 4px solid $darkgreen;
-  border-radius: 20px;
-  width: 210px;
-  height: 210px;
+  border-radius: $squaresize / 10;
+  width: $squaresize;
+  height: $squaresize;
   background-color: $green;
 
   display: inline-block;
@@ -42,19 +60,15 @@ body {
 
 .atombox {
   @extend .answerbox;
-  overflow: hidden;
 }
-
-
 
 .atomletter {
-  margin: auto;
-  padding: none;
-  clear: none;
-  font-size: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $squaresize / 2.2;
   font-family: sans-serif;
 }
-
 
 .atomnuml, .atomnumr {
   color: $darkgreen;
