@@ -4,14 +4,13 @@ import question from './question'
 export default function AppViewModel() {
   const self = this
   let cont = document.getElementById('container')
-  cont.classList.remove('tLeft')
 
   let baseModel = {
-    question: '',
-    answer: '',
-    answers: [],
-    score: 0,
-    time: 30
+    question: '', //current question text
+    answer: '', //current answer
+    answers: [], //list of possible answers
+    score: 0, //current score
+    time: 30 //time left for question
   }
 
   for (let k in baseModel) {
@@ -49,7 +48,18 @@ export default function AppViewModel() {
       this.score(this.score()+this.time())
     }
 
-    container.classList.add('tRight')
-    container.addEventListener('transitionend', resetTransition)
+    cont.classList.add('tRight')
+    cont.addEventListener('transitionend', resetTransition)
   }
+
+  this.startGame = () => {
+    let menuCont = document.getElementById('menucontainer')
+    menuCont.className = 'tHidden transitioned'
+    //Show the first question
+    menuCont.addEventListener('transitionend', () => {
+      menuCont.className = 'hidden'
+      cont.classList.remove('tLeft')
+    })
+  }
+
 }

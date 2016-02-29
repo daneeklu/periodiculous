@@ -42,11 +42,11 @@ body {
   transition-duration: 1s;
 }
 
-.answerbox {
+.menubutton {
   border: 4px solid $darkgreen;
   border-radius: $squaresize / 10;
-  width: $squaresize;
   height: $squaresize;
+  width: $squaresize * 3;
   background-color: $green;
 
   display: inline-block;
@@ -58,8 +58,18 @@ body {
   }
 }
 
+.answerbox {
+  width: $squaresize;
+  height: $squaresize;
+  @extend .menubutton;
+}
+
 .atombox {
   @extend .answerbox;
+}
+
+#menucontainer {
+  margin-top: 20px;
 }
 
 .atomletter {
