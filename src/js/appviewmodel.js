@@ -4,17 +4,23 @@ import question from './question'
 export default function AppViewModel() {
   const self = this
   let cont = document.getElementById('container')
+  let menuCont = document.getElementById('menucontainer')
 
   let baseModel = {
     question: '', //current question text
     answer: '', //current answer
     answers: [], //list of possible answers
     score: 0, //current score
-    time: 30 //time left for question
+    time: 10 //time left for question
   }
 
   for (let k in baseModel) {
     this[k] = ko.observable(baseModel[k])
+  }
+
+  let initGame = () => {
+    this.time(baseModel.time)
+    this.score(baseModel.score)
   }
 
   this.timeWidth = ko.computed(() => {
@@ -26,11 +32,15 @@ export default function AppViewModel() {
   }, 1000)
 
   let updateQuestion = () => {
-    let q = question.randomQuestion()
+    let q
+    if (this.score() < 5) {
+      q = question.randomQuestion(9)
+    } else {
+      q = question.randomQuestion()
+    }
     this.question(q.question)
     this.answers(q.answers)
     this.answer(q.answer)
-    this.time(30)
   }
 
   let resetTransition = function() {
@@ -41,24 +51,41 @@ export default function AppViewModel() {
     cont.removeEventListener('transitionend', resetTransition)
   }
 
+  let showMenu = function() {
+    menuCont.className = 'transitioned'
+    cont.removeEventListener('transitionend', showMenu)
+  }
+
   updateQuestion()
 
   this.nextQuestion = (answer) => {
+    let gameOver = this.time() <= 0
     if (this.answer() == answer) {
-      this.score(this.score()+this.time())
+      this.score(this.score() + 1)
+      this.time(this.time() + 3)
+    } else {
+      this.time(this.time() - 5)
     }
 
     cont.classList.add('tRight')
-    cont.addEventListener('transitionend', resetTransition)
+
+    if (!gameOver) {
+      //Next question
+      cont.addEventListener('transitionend', resetTransition)
+    } else {
+      cont.addEventListener('transitionend', showMenu)
+    }
+
   }
 
   this.startGame = () => {
-    let menuCont = document.getElementById('menucontainer')
+
+    initGame()
     menuCont.className = 'tHidden transitioned'
     //Show the first question
     menuCont.addEventListener('transitionend', () => {
-      menuCont.className = 'hidden'
-      cont.classList.remove('tLeft')
+      menuCont.className = 'hidden tHidden transitioned'
+      resetTransition()
     })
   }
 
