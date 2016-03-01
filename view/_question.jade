@@ -1,8 +1,14 @@
-h1(data-bind="text: question")
+h1
+  | What is the symbol for&nbsp;
+  span.element-text(data-bind="text: question")
+  | ?
 ul(data-bind="foreach: answers")
   a(href="#" data-bind="click: $parent.nextQuestion")
     .answerbox
       .atomletter
         div(data-bind="text: $data")
-.timebar(data-bind="style: { width: timeWidth }") &nbsp;
-h1(data-bind="text: score")
+.timebar(data-bind="style: { width: timeWidth }")
+  i.fa.fa-clock-o.bgcolor-icon
+h1
+  i.fa.fa-trophy
+  span(data-bind="text: score")

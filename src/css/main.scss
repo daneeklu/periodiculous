@@ -72,6 +72,19 @@ body {
   margin-top: 20px;
 }
 
+.timebar i {
+  font-size: 2em;
+}
+
+.bgcolor-icon {
+  color: $lightgreen;
+}
+
+.element-text {
+  color: #7d3636;
+  font-weight: 600;
+}
+
 .atomletter {
   display: flex;
   align-items: center;

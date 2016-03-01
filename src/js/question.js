@@ -30,7 +30,7 @@ export default {
 
     return {
       answer: e.symbol,
-      question: `What is the symbol for ${e.name}?`,
+      question: e.name,
       answers: ans
     }
   }
