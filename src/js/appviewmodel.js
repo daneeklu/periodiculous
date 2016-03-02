@@ -5,13 +5,16 @@ export default function AppViewModel() {
   const self = this
   let cont = document.getElementById('container')
   let menuCont = document.getElementById('menucontainer')
+  let wrongMsg = document.getElementById('wrongmessage')
+  let correctMsg = document.getElementById('correctmessage')
 
   let baseModel = {
     question: '', //current question text
     answer: '', //current answer
     answers: [], //list of possible answers
     score: 0, //current score
-    time: 10 //time left for question
+    time: 10, //time left for question
+    correctAnswer: '' //correct answer for error message
   }
 
   for (let k in baseModel) {
@@ -60,11 +63,22 @@ export default function AppViewModel() {
 
   this.nextQuestion = (answer) => {
     let gameOver = this.time() <= 0
+
+    //Was the answer correct?
     if (this.answer() == answer) {
       this.score(this.score() + 1)
       this.time(this.time() + 3)
+      correctMsg.className = 'transitioned'
+      setTimeout(() => {
+        correctMsg.className = 'transitioned tHidden'
+      }, 2000)
     } else {
       this.time(this.time() - 5)
+      wrongMsg.className = 'transitioned'
+      this.correctAnswer(`Correct answer: ${this.answer()}`)
+      setTimeout(() => {
+        wrongMsg.className = 'transitioned tHidden'
+      }, 2000)
     }
 
     cont.classList.add('tRight')

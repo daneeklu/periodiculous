@@ -1,11 +1,20 @@
 doctype html
 html(lang="en")
   head
+    meta(charset='utf-8')
     title Periodiculous
     include css.jade
   body
     .header
       span Periodiculous
+    #wrongmessage.transitioned.tHidden
+      | Wrong! -5
+      i.fa.fa-clock-o
+      br
+      div(data-bind="text: correctAnswer")
+    #correctmessage.transitioned.tHidden
+      | Correct! +3
+      i.fa.fa-clock-o
     #menucontainer
       include _menu.jade
     #container.transitioned.tLeft

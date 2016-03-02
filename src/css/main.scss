@@ -9,6 +9,14 @@ $squaresize: 120px;
               6px 6px 16px $dropshadow;
 }
 
+@mixin text-outline($r, $color) {
+  text-shadow:
+    (-$r) (-$r) 0 $color,
+    $r -($r) 0 $color,
+    (-$r) $r 0 $color,
+    $r $r 0 $color;
+}
+
 body, h1, a , a:link, a:visited, a:hover, a:active {
     color: $darkgreen;
 }
@@ -76,12 +84,35 @@ body {
   font-size: 2em;
 }
 
+.messagediv {
+  position: absolute;
+  top: $squaresize * 3;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+#correctmessage {
+  @extend .messagediv;
+  left: 50%;
+  margin-left: 100px;
+  color: $green;
+  @include text-outline(2px, $darkgreen);
+}
+
+#wrongmessage {
+  @extend .messagediv;
+  right: 50%;
+  margin-right: 100px;
+  color: $red;
+  @include text-outline(2px, $darkerred);
+}
+
 .bgcolor-icon {
   color: $lightgreen;
 }
 
 .element-text {
-  color: #7d3636;
+  color: $darkred;
   font-weight: 600;
 }
 
