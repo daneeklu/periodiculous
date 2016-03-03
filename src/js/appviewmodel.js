@@ -11,6 +11,17 @@ function transitionHide(el, t, after) {
   el.addEventListener('transitionend', listener)
 }
 
+//Listen to an event only once
+function listenOnce(el, t, callback) {
+
+  let hideListener = function (e) {
+		e.target.removeEventListener(e.type, hideListener);
+    return callback(e)
+  }
+  el.addEventListener(t, hideListener)
+
+}
+
 
 export default function AppViewModel() {
   const self = this
@@ -33,6 +44,12 @@ export default function AppViewModel() {
   for (let k in baseModel) {
     this[k] = ko.observable(baseModel[k])
   }
+
+  this.visibleMenu = ko.observable(true)
+  this.visibleResult = ko.observable(false)
+  this.visibleGameInfo = ko.observable(false)
+  this.visibleCorrect = ko.observable(false)
+  this.visibleWrong = ko.observable(false)
 
   let initGame = () => {
     this.time(baseModel.time)
@@ -67,18 +84,16 @@ export default function AppViewModel() {
     cont.removeEventListener('transitionend', resetTransition)
   }
 
-  this.showMenu = function() {
-    menuCont.className = 'transitioned'
-    gameinfo.className = 'transitioned tHidden'
-    resultScreen.className = 'transitioned tHidden hidden'
-    cont.removeEventListener('transitionend', showMenu)
+  this.showMenu = () => {
+    this.visibleResult(false)
+    this.visibleMenu(true)
+    this.visibleGameInfo(false)
   }
 
-  let showResults = function() {
+  let showResults = () => {
     cont.classList.add('hidden')
-    resultScreen.className = 'transitioned'
-    gameinfo.className = 'transitioned tHidden'
-    cont.removeEventListener('transitionend', showMenu)
+    this.visibleResult(true)
+    this.visibleGameInfo(false)
   }
 
   updateQuestion()
@@ -90,16 +105,19 @@ export default function AppViewModel() {
     if (this.answer() == answer) {
       this.score(this.score() + 1)
       this.time(this.time() + 3)
-      correctMsg.className = 'transitioned'
+
+      this.visibleCorrect(true)
       setTimeout(() => {
-        correctMsg.className = 'transitioned tHidden'
+        this.visibleCorrect(false)
       }, 2000)
+
     } else {
       this.time(this.time() - 5)
-      wrongMsg.className = 'transitioned'
       this.correctAnswer(`Correct answer: ${this.answer()}`)
+
+      this.visibleWrong(true)
       setTimeout(() => {
-        wrongMsg.className = 'transitioned tHidden'
+        this.visibleWrong(false)
       }, 2000)
     }
 
@@ -115,13 +133,39 @@ export default function AppViewModel() {
   this.startGame = () => {
 
     initGame()
-    menuCont.className = 'tHidden transitioned'
+    this.visibleMenu(false)
     //Show the first question
-    menuCont.addEventListener('transitionend', () => {
-      menuCont.className = 'hidden tHidden transitioned'
-      gameinfo.className = 'transitioned'
+    listenOnce(menuCont, 'transitionend', () => {
+      this.visibleGameInfo(true)
       resetTransition()
     })
   }
 
+}
+
+
+ko.bindingHandlers.fadeVisible = {
+  init: function(e, val) {
+    let v = ko.unwrap(val())
+    if (!v) {
+      e.classList.add('hidden', 'tHidden', 'transitioned')
+    }
+  },
+  update: function(e, val) {
+    let v = ko.unwrap(val())
+    if (!v ) {
+      //Only add the transition listener if the element is not hidden
+      if (!e.classList.contains('hidden')) {
+        e.classList.add('tHidden', 'transitioned')
+        listenOnce(e, 'transitionend', function() {
+          e.classList.add('hidden')
+        })
+      }
+    } else {
+      e.classList.remove('hidden')
+      e.offsetHeight //flush graphical update
+      //Wait by turning on opacity until after hidden is removed
+      e.classList.remove('tHidden')
+    }
+  }
 }

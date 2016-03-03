@@ -7,7 +7,7 @@ html(lang="en")
   body
     .header
       span Periodiculous
-    #menucontainer
+    #menucontainer(data-bind="fadeVisible: visibleMenu")
       include _menu.jade
     include _question.jade
     include _result.jade

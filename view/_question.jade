@@ -10,7 +10,7 @@
         .atomletter
           div(data-bind="text: $data")
           
-#gameinfo.transitioned.tHidden
+#gameinfo.hidden(data-bind="fadeVisible: visibleGameInfo")
   h1
     i.fa.fa-trophy
     span(data-bind="text: score")
@@ -18,11 +18,11 @@
       i.fa.fa-clock-o.bgcolor-icon
 
 //Wrong and right messages below
-#wrongmessage.transitioned.tHidden
+#wrongmessage.hidden(data-bind="fadeVisible: visibleWrong")
   | Wrong! -5
   i.fa.fa-clock-o
   br
   div(data-bind="text: correctAnswer")
-#correctmessage.transitioned.tHidden
+#correctmessage.hidden(data-bind="fadeVisible: visibleCorrect")
   | Correct! +3
   i.fa.fa-clock-o
