@@ -1,6 +1,17 @@
 import ko from 'knockout'
 import question from './question'
 
+
+function transitionHide(el, t, after) {
+  el.classList.add(t)
+  let listener = () => {
+    after()
+    el.removeEventListener('transitionend', listener)
+  }
+  el.addEventListener('transitionend', listener)
+}
+
+
 export default function AppViewModel() {
   const self = this
   let cont = document.getElementById('container')
@@ -8,6 +19,7 @@ export default function AppViewModel() {
   let wrongMsg = document.getElementById('wrongmessage')
   let correctMsg = document.getElementById('correctmessage')
   let gameInfo = document.getElementById('gameinfo')
+  let resultScreen = document.getElementById('resultscreen')
 
   let baseModel = {
     question: '', //current question text
@@ -55,8 +67,16 @@ export default function AppViewModel() {
     cont.removeEventListener('transitionend', resetTransition)
   }
 
-  let showMenu = function() {
+  this.showMenu = function() {
     menuCont.className = 'transitioned'
+    gameinfo.className = 'transitioned tHidden'
+    resultScreen.className = 'transitioned tHidden hidden'
+    cont.removeEventListener('transitionend', showMenu)
+  }
+
+  let showResults = function() {
+    cont.classList.add('hidden')
+    resultScreen.className = 'transitioned'
     gameinfo.className = 'transitioned tHidden'
     cont.removeEventListener('transitionend', showMenu)
   }
@@ -83,13 +103,11 @@ export default function AppViewModel() {
       }, 2000)
     }
 
-    cont.classList.add('tRight')
-
     if (!gameOver) {
       //Next question
-      cont.addEventListener('transitionend', resetTransition)
+      transitionHide(cont, 'tRight', resetTransition)
     } else {
-      cont.addEventListener('transitionend', showMenu)
+      transitionHide(cont, 'tRight', showResults)
     }
 
   }

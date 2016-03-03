@@ -7,17 +7,10 @@ html(lang="en")
   body
     .header
       span Periodiculous
-    #wrongmessage.transitioned.tHidden
-      | Wrong! -5
-      i.fa.fa-clock-o
-      br
-      div(data-bind="text: correctAnswer")
-    #correctmessage.transitioned.tHidden
-      | Correct! +3
-      i.fa.fa-clock-o
     #menucontainer
       include _menu.jade
     include _question.jade
+    include _result.jade
 
     script(src="jspm_packages/system.js", charset="utf-8")
     script(src="config.js", charset="utf-8")
