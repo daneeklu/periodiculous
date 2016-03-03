@@ -7,6 +7,7 @@ export default function AppViewModel() {
   let menuCont = document.getElementById('menucontainer')
   let wrongMsg = document.getElementById('wrongmessage')
   let correctMsg = document.getElementById('correctmessage')
+  let gameInfo = document.getElementById('gameinfo')
 
   let baseModel = {
     question: '', //current question text
@@ -56,6 +57,7 @@ export default function AppViewModel() {
 
   let showMenu = function() {
     menuCont.className = 'transitioned'
+    gameinfo.className = 'transitioned tHidden'
     cont.removeEventListener('transitionend', showMenu)
   }
 
@@ -99,6 +101,7 @@ export default function AppViewModel() {
     //Show the first question
     menuCont.addEventListener('transitionend', () => {
       menuCont.className = 'hidden tHidden transitioned'
+      gameinfo.className = 'transitioned'
       resetTransition()
     })
   }
