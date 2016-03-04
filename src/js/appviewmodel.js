@@ -1,26 +1,8 @@
 import ko from 'knockout'
+import ut from './util'
 import question from './question'
 
 
-function transitionHide(el, t, after) {
-  el.classList.add(t)
-  let listener = () => {
-    after()
-    el.removeEventListener('transitionend', listener)
-  }
-  el.addEventListener('transitionend', listener)
-}
-
-//Listen to an event only once
-function listenOnce(el, t, callback) {
-
-  let hideListener = function (e) {
-		e.target.removeEventListener(e.type, hideListener);
-    return callback(e)
-  }
-  el.addEventListener(t, hideListener)
-
-}
 
 
 export default function AppViewModel() {
@@ -50,6 +32,7 @@ export default function AppViewModel() {
   this.visibleGameInfo = ko.observable(false)
   this.visibleCorrect = ko.observable(false)
   this.visibleWrong = ko.observable(false)
+  this.visibleQuestion = ko.observable(false)
 
   let initGame = () => {
     this.time(baseModel.time)
@@ -76,22 +59,24 @@ export default function AppViewModel() {
     this.answer(q.answer)
   }
 
-  let resetTransition = function() {
+  let resetTransition = () => {
     updateQuestion()
-    cont.className = 'tLeft'; // remove tRight & transitioned
-    cont.offsetHeight // flush changes
-    cont.className = 'transitioned'
-    cont.removeEventListener('transitionend', resetTransition)
+    this.visibleQuestion(true)
   }
 
   this.showMenu = () => {
-    this.visibleResult(false)
-    this.visibleMenu(true)
-    this.visibleGameInfo(false)
+    if (this.visibleResult()) {
+      this.visibleResult(false)
+      ut.listenOnce(resultScreen, 'transitionend', () => {
+        this.visibleMenu(true)
+      })
+    } else {
+      this.visibleMenu(true)
+      this.visibleGameInfo(false)
+    }
   }
 
   let showResults = () => {
-    cont.classList.add('hidden')
     this.visibleResult(true)
     this.visibleGameInfo(false)
   }
@@ -121,13 +106,15 @@ export default function AppViewModel() {
       }, 2000)
     }
 
-    if (!gameOver) {
-      //Next question
-      transitionHide(cont, 'tRight', resetTransition)
-    } else {
-      transitionHide(cont, 'tRight', showResults)
-    }
+    this.visibleQuestion(false)
 
+    if (gameOver) {
+      this.visibleGameInfo(false)
+      ut.listenOnce(cont, 'transitionend', showResults)
+    } else {
+      //Next question
+      ut.listenOnce(cont, 'transitionend', resetTransition)
+    }
   }
 
   this.startGame = () => {
@@ -135,37 +122,10 @@ export default function AppViewModel() {
     initGame()
     this.visibleMenu(false)
     //Show the first question
-    listenOnce(menuCont, 'transitionend', () => {
+    ut.listenOnce(menuCont, 'transitionend', () => {
       this.visibleGameInfo(true)
       resetTransition()
     })
   }
 
-}
-
-
-ko.bindingHandlers.fadeVisible = {
-  init: function(e, val) {
-    let v = ko.unwrap(val())
-    if (!v) {
-      e.classList.add('hidden', 'tHidden', 'transitioned')
-    }
-  },
-  update: function(e, val) {
-    let v = ko.unwrap(val())
-    if (!v ) {
-      //Only add the transition listener if the element is not hidden
-      if (!e.classList.contains('hidden')) {
-        e.classList.add('tHidden', 'transitioned')
-        listenOnce(e, 'transitionend', function() {
-          e.classList.add('hidden')
-        })
-      }
-    } else {
-      e.classList.remove('hidden')
-      e.offsetHeight //flush graphical update
-      //Wait by turning on opacity until after hidden is removed
-      e.classList.remove('tHidden')
-    }
-  }
 }
